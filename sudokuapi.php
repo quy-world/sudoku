@@ -40,11 +40,12 @@ function locateBlock($x, $y){
 }
 
 function remove($flatnine, $i){ 
+	// [int] -> [int]
 	return array_merge(array_slice($flatnine, 0, $i), array_slice($flatnine, $i+1, count($flatnine))); 
 }
 
 function getNeighbours($arr, $x, $y){
-	// arr -> int -> in -> [ ([int]|int) ]
+	// arr -> int -> int -> [ ([int]|int) ]
 	$c = getColumn($arr, $x);
 	$r = getRow($arr, $y);
 	[$bnum, $bpos] = locateBlock($x, $y);
@@ -53,6 +54,7 @@ function getNeighbours($arr, $x, $y){
 	return $ret;
 }
 function array_some($f, $arr){
+	// (x -> bool) -> bool
 	foreach ($arr as $val) {
 		if($f($val)){
 			return true;
@@ -68,7 +70,10 @@ function invert($flatnine){
 	return $ret;
 }
 
-function eliminate($arr){ return initialisePuzzle(purge($arr)); }
+function eliminate($arr){ 
+	// [[int|[int]]] -> [[int|false]]
+	return initialisePuzzle(purge($arr)); 
+}
 function purge($arr){
 	// arr -> [arr, bool]
 	return array_map(function($r){ return array_map(function($c){ return is_array($c)?false:$c;}, $r);}, $arr);
@@ -87,6 +92,7 @@ function initialisePuzzle($arr){
 	return $arr;
 }
 function initpuz($i){
+	// int -> [[int|false]]
 	return [
 			genpuzzle(".........,.........,.........,.........,.........,.........,.........,.........,.........")
 		, genpuzzle(".........,.1.......,.........,.........,.........,.........,.........,.........,.........")
@@ -176,6 +182,7 @@ function last_test(){
 }
 // -----------
 function stillValid2($arr){
+	// [[int|[int]] -> bool
 	$arr = purge($arr);
 	for($i=0; $i<count($arr); $i++){
 		for($j=0; $j<count($arr[$i]); $j++){
